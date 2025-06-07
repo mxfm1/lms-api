@@ -1,0 +1,5 @@
+name = "fastapi"
+compatibility_date = "2024-04-02"
+
+UPSTASH_REDIS_REST_TOKEN = "AY98AAIjcDEyNmU3ZWM1ZWJiNGM0N2E3ODBkMjMzZGNmYWY0ZTkxZXAxMA"
+UPSTASH_REDIS_REST_URL = "https://hopeful-baboon-36732.upstash.io"
