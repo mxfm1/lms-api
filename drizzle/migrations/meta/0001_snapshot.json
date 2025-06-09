@@ -1,9 +1,47 @@
 {
-  "id": "277bdbef-2e5e-40bd-92d4-3ef3fbc89ad8",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "94f49620-876c-4b18-b3a2-90a7fdbeab28",
+  "prevId": "277bdbef-2e5e-40bd-92d4-3ef3fbc89ad8",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.content": {
+      "name": "content",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "category": {
+          "name": "category",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.courses": {
       "name": "courses",
       "schema": "",

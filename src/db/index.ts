@@ -1,6 +1,7 @@
 import postgres from "postgres"
-import { drizzle } from 'drizzle-orm/postgres-js'
-
+import { drizzle } from 'drizzle-orm/neon-http'
+import * as schema from './schema'
+import {neon} from '@neondatabase/serverless'
 
 const DB_URL = process.env.DATABASE_URL!
 const isProd = process.env.NODE_ENV === 'production'
@@ -10,9 +11,10 @@ if(!DB_URL){
 }
 
 export const client = postgres(DB_URL,{
-    ssl: isProd
+    ssl: true
 })
+const sql = neon(DB_URL)
+const db = drizzle(sql)
 
-const db = drizzle(client)
-export {db, DB_URL}
+export {db}
 
