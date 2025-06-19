@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs"
+import { randomUUID } from "crypto"
 
 export const generateUUID = () => {
     return crypto.randomUUID()

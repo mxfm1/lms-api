@@ -1,6 +1,6 @@
 {
-  "id": "f24fe14d-82ef-4150-8f7f-4cd4314507de",
-  "prevId": "f2f795a7-7f80-4643-b3aa-56dc790d5ac9",
+  "id": "4d3d9eb2-a8c9-4f2f-bda3-eb8f5173c33c",
+  "prevId": "f24fe14d-82ef-4150-8f7f-4cd4314507de",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -131,14 +131,32 @@
           "primaryKey": false,
           "notNull": true
         },
-        "ñastName": {
-          "name": "ñastName",
+        "lastName": {
+          "name": "lastName",
           "type": "text",
           "primaryKey": false,
           "notNull": false
         },
         "imageURL": {
           "name": "imageURL",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "companyName": {
+          "name": "companyName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "jobName": {
+          "name": "jobName",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -161,7 +179,15 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "profile_email_unique": {
+          "name": "profile_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

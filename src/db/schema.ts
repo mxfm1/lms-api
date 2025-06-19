@@ -45,3 +45,15 @@ export const verification = pgTable("verification", {
  createdAt: timestamp('created_at').$defaultFn(() => /* @__PURE__ */ new Date()),
  updatedAt: timestamp('updated_at').$defaultFn(() => /* @__PURE__ */ new Date())
                 });
+
+
+export const profile = pgTable("profile",{
+    id: text('id').primaryKey(),
+    userId: text('userId').notNull().references(() => user.id,{onDelete: 'cascade'}),
+    name: text('name').notNull(),
+    lastName: text("lastName"),
+    imageURL: text("imageURL"),
+    email: text('email').unique(),
+    companyName: text('companyName'),
+    jobName: text('jobName'),
+})

@@ -14,7 +14,7 @@ export const client = postgres(DB_URL,{
     ssl: true
 })
 const sql = neon(DB_URL)
-const db = drizzle(sql)
+const db = drizzle(sql,{schema})
 
 export {db}
 
