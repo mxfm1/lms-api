@@ -1,4 +1,9 @@
-import { pgTable, text, timestamp, boolean, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, integer, uuid } from "drizzle-orm/pg-core";
+
+export const timestamps = {
+    createdAt: timestamp("createdAt").$defaultFn(() => new Date()).notNull(),
+    updatedAt: timestamp("updatedAt").$defaultFn(() => new Date()).notNull(),
+}
 
 export const user = pgTable("user", {
                     id: text('id').primaryKey(),
@@ -57,3 +62,25 @@ export const profile = pgTable("profile",{
     companyName: text('companyName'),
     jobName: text('jobName'),
 })
+
+// COURSES SCHEMA
+ 
+export const course = pgTable('course',{
+    id: uuid('id').primaryKey().defaultRandom(),
+    title: text('title'),
+    description: text('description'),
+    thumbnail_url: text('thumbnailurl'),
+    isFree: boolean('isfree'),
+    categoryId: uuid('categoryId').references(() => category.id,{onDelete:'cascade'}),
+    createdAt: timestamps.createdAt,
+    updatedAt: timestamps.updatedAt,
+})
+
+export const category = pgTable('category',{
+    id: uuid('id').primaryKey().defaultRandom(),
+    name: text('name'),
+    createdAt: timestamps.createdAt,
+    updatedAt: timestamps.updatedAt,
+})
+
+// modulos - duracion estimada

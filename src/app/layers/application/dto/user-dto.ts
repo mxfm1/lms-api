@@ -4,3 +4,8 @@ export type RegisterEmailUserAdapter = {
     lastName?:string;
     password:string;
 }
+
+export type SignInUserEmailAdapter = {
+    email: string;
+    password:string
+}
