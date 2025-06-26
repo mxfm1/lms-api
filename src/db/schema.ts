@@ -1,4 +1,12 @@
-import { pgTable, text, timestamp, boolean, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, integer, uuid, date, pgEnum, varchar } from "drizzle-orm/pg-core";
+
+export const contentType = pgEnum('contentType',["video","text"])
+export const courseContentStatus = pgEnum('status',["drafted","published","hidden"])
+
+export const timestamps = {
+    createdAt: timestamp("createdAt").$defaultFn(() => new Date()).notNull(),
+    updatedAt: timestamp("updatedAt").$defaultFn(() => new Date()).notNull(),
+}
 
 export const user = pgTable("user", {
                     id: text('id').primaryKey(),
@@ -45,3 +53,78 @@ export const verification = pgTable("verification", {
  createdAt: timestamp('created_at').$defaultFn(() => /* @__PURE__ */ new Date()),
  updatedAt: timestamp('updated_at').$defaultFn(() => /* @__PURE__ */ new Date())
                 });
+
+
+export const profile = pgTable("profile",{
+    id: text('id').primaryKey(),
+    userId: text('userId').notNull().references(() => user.id,{onDelete: 'cascade'}),
+    name: text('name').notNull(),
+    lastName: text("lastName"),
+    imageURL: text("imageURL"),
+    email: text('email').unique(),
+    companyName: text('companyName'),
+    jobName: text('jobName'),
+})
+
+// COURSES SCHEMA
+ 
+export const course = pgTable('course',{
+    id: uuid('id').primaryKey().defaultRandom(),
+    title: text('title'),
+    description: text('description'),
+    thumbnailUrl: text('thumbnailUrl'),
+    isFree: boolean('isfree'),
+    categoryId: uuid('categoryId').references(() => category.id,{onDelete:'cascade'}),
+    status: courseContentStatus().default("drafted"),
+    createdAt: timestamps.createdAt,
+    updatedAt: timestamps.updatedAt,
+})
+
+export const category = pgTable('category',{
+    id: uuid('id').primaryKey().defaultRandom(),
+    name: text('name'),
+    createdAt: timestamps.createdAt,
+    updatedAt: timestamps.updatedAt,
+})
+
+// modulos - duracion estimada
+export const courseModule = pgTable('courseModule',{
+    id: uuid("id").primaryKey().defaultRandom(),
+    title: text('title').notNull(),
+    duration: integer('duration'),
+    courseId: uuid('courseId').references(() => course.id,{onDelete:'cascade'}),
+    order: integer('order').notNull(),
+    isPublished: boolean('isPublished').default(false),
+    ...timestamps
+})
+
+export const moduleLesson = pgTable('moduleLesson',{
+    id: uuid('ID').primaryKey().defaultRandom(),
+    title:text('title').notNull(),
+    description: text('description'),
+    duration: integer('duration'),
+    completed: boolean('completed').default(false),
+    order: integer('order').notNull(),
+    moduleId: uuid('moduleId').references(() => courseModule.id,{onDelete:'cascade'})
+})
+
+export const lessonContent = pgTable('lessonContent',{
+    id: uuid('id').primaryKey().defaultRandom(),
+    contentType: contentType('contentType'),
+    videoUrl: text('videoUrl'),
+    duration: integer('duration'),
+    transcript: text('transcript'),
+    htmlContent: text('htmlContent'),
+    lessonId: uuid('lessonId').references(() => moduleLesson.id,{onDelete: 'cascade'})
+})
+
+export const lessonAttachments = pgTable('lessonAttachment',{
+    id: uuid('id').primaryKey().defaultRandom(),
+    fileUrl: text('fileUrl').notNull(),
+    fileName: varchar("fileName",{length:255}),
+    fileDescription: text('fileDescription'),
+    fileSize: integer('fileSize'),
+    mimeType: varchar("mimeType",{length:255}),
+    lessonId: uuid('lessonId').references(() => moduleLesson.id,{onDelete: 'cascade'}),
+    ...timestamps
+})
